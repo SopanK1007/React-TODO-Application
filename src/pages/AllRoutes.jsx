@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import AddTask from "./AddTask";
 import AllTodos from "./AllTodos";
 import Home from "./Home";
 import Login from "./Login";
@@ -18,6 +19,7 @@ const AllRoutes = () => {
         <Route path="/personal" element={<Personal />}></Route>
         <Route path="/others" element={<Other />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/add-task" element={<AddTask />}></Route>
         <Route path="*" element={<Navigate replace to="/home" />}></Route>
       </Routes>
     </div>
