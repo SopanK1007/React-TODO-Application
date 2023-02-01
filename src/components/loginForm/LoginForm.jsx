@@ -1,7 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import style from "./LoginForm.module.css";
 
 const LoginForm = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const handleIsLogin = (event) => {
+    event.preventDefault();
+    setIsLogin(!isLogin);
+    console.log("isLogin", isLogin);
+  };
   return (
     <div className={style.main_login_div}>
       <div className={style.inside_div}>
@@ -13,9 +20,11 @@ const LoginForm = () => {
         </div>
         <div className={style.form_div}>
           <form>
-            <h2>Sign In</h2>
-            <p>Welcome Again !</p>
-            <label htmlFor="email">Enter Your Email Address</label>
+            <h2>{isLogin ? "Sign In" : "Sign Up"}</h2>
+            <p>{isLogin ? "Welcome Again !" : "Create Your Account"}</p>
+            <label htmlFor="email">
+              {isLogin ? "Email Address" : "Enter Your Email Address"}
+            </label>
             <br />
             <input
               type={"text"}
@@ -23,14 +32,19 @@ const LoginForm = () => {
               placeholder="Enter E-mail Address"
             />
             <br />
-            <label htmlFor="password">Enter Unique Password</label>
+            <label htmlFor="password">
+              {isLogin ? "Enter Passwaord" : "Enter Unique Password"}
+            </label>
             <br />
             <input type="password" id="password" placeholder="Enter password" />
             <br />
-            <button>Sign In</button>
+            <button>{isLogin ? "Sign In" : "Sign Up"}</button>
           </form>
           <p>
-            Don't have an acoount?<NavLink>Sign Up</NavLink>
+            {isLogin ? "Don't have an acoount?" : "Already have Account?"}
+            <Link onClick={handleIsLogin}>
+              {isLogin ? "Sign Up" : "Sign In"}
+            </Link>
           </p>
         </div>
       </div>
