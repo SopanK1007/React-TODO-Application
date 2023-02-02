@@ -34,7 +34,7 @@
 .todo_div .form_div .task input,
 .sub_task input,
 .sub_task button {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   height: 35px;
 }
 .todo_div .form_div .task textarea {
@@ -78,6 +78,5 @@
   margin-right: 5px;
 }
 .add_todo_btn img {
-  width: 100%;
   border-radius: 10px;
 }
