@@ -1,12 +1,32 @@
+import { useContext, useState } from "react";
 import style from "./AddTodo.module.css";
+import AuthContext from "../../store/auth-context";
 
 const AddTodo = () => {
+  const [subTask, setSubTask] = useState({ task: "", status: false });
+
+  const auth = useContext(AuthContext);
+  console.log("auth", auth.is_login);
+  const handleSubmit = () => {
+    auth.login();
+  };
+
+  const handleSubTask = (event) => {
+    setSubTask()
+  };
+
+  const handleChange = () => {};
   return (
     <div className={style.todo_div}>
       <h2>Add Todo's</h2>
       <div className={style.form_div}>
         <div className={style.task}>
-          <input type="text" id="task" placeholder="Todo Title" />
+          <input
+            type="text"
+            id="task"
+            placeholder="Todo Title"
+            onChange={handleChange}
+          />
           <br />
           <input type="date" name="" id="" />
           <br />
@@ -21,7 +41,7 @@ const AddTodo = () => {
         <div className={style.sub_task}>
           <input type="text" placeholder="Sub Task" />
           <br />
-          <button>ADD</button>
+          <button onClick={handleSubTask}>ADD</button>
         </div>
         <div className={style.todo_category}>
           <div>
@@ -54,7 +74,7 @@ const AddTodo = () => {
             src="https://cdn.pixabay.com/photo/2020/05/04/15/54/list-5129676__340.jpg"
             alt="img"
           />
-          <button>ADD TODO</button>
+          <button onClick={handleSubmit}>ADD TODO</button>
         </div>
       </div>
     </div>
