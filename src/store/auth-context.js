@@ -18,7 +18,9 @@ export const AuthContextProvider = (props) => {
     is_login: isLogin,
     login: loginHandler,
     subTaskHandler: subTaskHandler,
+    allSubTask: allSubTask
   };
+
   return (
     <AuthContext.Provider value={contextValue}>
       {props.children}
