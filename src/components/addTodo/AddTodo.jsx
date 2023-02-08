@@ -1,7 +1,19 @@
 import { useContext, useState } from "react";
 import style from "./AddTodo.module.css";
 import AuthContext from "../../store/auth-context";
+import { MdDelete } from "react-icons/md";
 
+const todo_category = [
+  { name: "todoCategory", id: "personal", value: "Personal" },
+  { name: "todoCategory", id: "official", value: "Official" },
+  { name: "todoCategory", id: "others", value: "Others" },
+];
+
+const todo_status = [
+  { name: "todoStatus", id: "completed", value: "Completed" },
+  { name: "todoStatus", id: "inProgress", value: "In Progress..." },
+  { name: "todoStatus", id: "todo", value: "TODO" },
+];
 const initialSubTask = {
   sub_Task: "",
   status: false,
@@ -11,49 +23,88 @@ const initialState = {
   todoTitle: "",
   addDate: "",
   todoDescription: "",
-  todoCategory: {
-    todo_category: "",
-    selected: false,
-  },
-  todoStatus: {
-    todo_status: "",
-    selected: false,
-  },
-  subTask: [
-    {
-      sub_Task: "",
-      status: false,
-    },
-  ],
+  todoCategory: "",
+  todoStatus: "",
+  subTask: [],
 };
 
 const AddTodo = () => {
   const [subTask, setSubTask] = useState(initialSubTask);
   const [todo, setTodo] = useState(initialState);
 
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
   // console.log("auth", auth);
 
-  const handleSubmit = () => {
-    auth.login();
-  };
-
   const handleChangeSubTAsk = (event) => {
-    const [name, value] = event.target;
+    // console.log(event);
+    const { name, value } = event.target;
     setSubTask({ ...subTask, [name]: value });
   };
 
   const handleSubTask = (event) => {
-    // auth.subTaskHandler(subTask);
-    todo.subTask.push(subTask);
-    console.log("todo", todo);
+    setTodo({ ...todo, subTask: [...todo.subTask, subTask] });
   };
 
   const handleChange = (event) => {
-    console.log(event);
+    const { name, value } = event.target;
+    setTodo({
+      ...todo,
+      [name]: value,
+    });
   };
 
-  console.log("allSubTask", auth.allSubTask);
+  const handleDelete = () => {
+    
+  }
+
+  const handleSubmit = () => {
+    // auth.login();
+    console.log("todo", todo);
+  };
+
+  const todo__category = todo_category.map((el, index) => {
+    return (
+      <div key={index}>
+        <input
+          type={"radio"}
+          name={el.name}
+          id={el.id}
+          value={el.value}
+          checked={todo.todoCategory === `${el.value}`}
+          onChange={handleChange}
+        />
+        <label htmlFor={el.id}>{el.value}</label>
+        <br />
+      </div>
+    );
+  });
+
+  const todo__status = todo_status.map((el, index) => {
+    return (
+      <div key={index}>
+        <input
+          type={"radio"}
+          name={el.name}
+          id={el.id}
+          value={el.value}
+          checked={todo.todoStatus === `${el.value}`}
+          onChange={handleChange}
+        />
+        <label htmlFor={el.id}>{el.value}</label>
+        <br />
+      </div>
+    );
+  });
+
+  const todoSubTask = todo.subTask.map((el, index) => {
+    return (
+      <div key={index} className={style.sub__task}>
+        <label>{el.sub_Task}</label>
+        <MdDelete style={{ color: "red", fontSize: "18px" }} onClick={handleDelete} />
+      </div>
+    );
+  });
+
   return (
     <div className={style.todo_div}>
       <h2>Add Todo's</h2>
@@ -85,6 +136,9 @@ const AddTodo = () => {
             onChange={handleChange}
           ></textarea>
         </div>
+
+        {/*  */}
+
         <div className={style.sub_task}>
           <input
             type="text"
@@ -95,6 +149,7 @@ const AddTodo = () => {
           />
           <br />
           <button onClick={handleSubTask}>ADD</button>
+          <div>{todo.subTask.length > 0 ? todoSubTask : null}</div>
         </div>
 
         {/*  */}
@@ -103,70 +158,14 @@ const AddTodo = () => {
           <div>
             <div>
               <p>Todo Category:</p>
-              <input
-                type="radio"
-                name="todo_category"
-                id="personal"
-                value={"Personal"}
-                checked={todo.todoCategory.selected}
-                onChange={handleChange}
-              />
-              <label htmlFor="personal">Personal</label>
-              <br />
-              <input
-                type="radio"
-                name="todo_category"
-                id="official"
-                value={"Official"}
-                checked={todo.todoCategory.selected}
-                onChange={handleChange}
-              />
-              <label htmlFor="official">Official</label>
-              <br />
-              <input
-                type="radio"
-                name="todo_category"
-                id="others"
-                value={"Others"}
-                checked={todo.todoCategory.selected}
-                onChange={handleChange}
-              />
-              <label htmlFor="others">Others</label>
+              {todo__category}
             </div>
 
             {/*  */}
 
             <div>
               <p>Todo Status:</p>
-              <input
-                type="radio"
-                name="todo_status"
-                id="completed"
-                value={"Completed"}
-                checked={todo.todoStatus.selected}
-                onChange={handleChange}
-              />
-              <label htmlFor="completed">Completed</label>
-              <br />
-              <input
-                type="radio"
-                name="todo_status"
-                id="inProgress"
-                value={"In Progress..."}
-                checked={todo.todoStatus.selected}
-                onChange={handleChange}
-              />
-              <label htmlFor="inProgress">In Progress...</label>
-              <br />
-              <input
-                type="radio"
-                name="todo_status"
-                id="todo"
-                value={"TODO"}
-                checked={todo.todoStatus.selected}
-                onChange={handleChange}
-              />
-              <label htmlFor="todo">TODO</label>
+              {todo__status}
             </div>
           </div>
         </div>
